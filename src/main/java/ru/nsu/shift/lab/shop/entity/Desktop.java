@@ -6,7 +6,7 @@ import ru.nsu.shift.lab.shop.utils.ShapeFactor;
 
 public class Desktop {
     @OneToOne
-    Good good;
+    private Good good;
     @Enumerated
-    ShapeFactor shape;
+    private ShapeFactor shape;
 }

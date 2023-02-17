@@ -6,7 +6,7 @@ import ru.nsu.shift.lab.shop.utils.MonitorSize;
 
 public class Laptop {
     @OneToOne
-    Good good;
+    private Good good;
     @Enumerated
-    MonitorSize size;
+    private MonitorSize size;
 }
