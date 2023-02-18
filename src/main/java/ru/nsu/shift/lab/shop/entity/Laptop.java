@@ -4,11 +4,7 @@ import jakarta.persistence.*;
 import ru.nsu.shift.lab.shop.utils.MonitorSize;
 
 @Entity
-@Table(name = "laptop")
-public class Laptop {
-    @OneToOne
-    @Id
-    private Good good;
+public class Laptop extends Good {
     @Enumerated
     private MonitorSize size;
 }

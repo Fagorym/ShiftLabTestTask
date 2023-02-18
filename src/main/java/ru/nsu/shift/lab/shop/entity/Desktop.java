@@ -4,11 +4,7 @@ import jakarta.persistence.*;
 import ru.nsu.shift.lab.shop.utils.ShapeFactor;
 
 @Entity
-@Table(name = "desktop")
-public class Desktop {
-    @OneToOne
-    @Id
-    private Good good;
+public class Desktop extends Good {
     @Enumerated
     private ShapeFactor shape;
 }

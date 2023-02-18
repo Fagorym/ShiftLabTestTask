@@ -1,11 +1,10 @@
 package ru.nsu.shift.lab.shop.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "good")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Good {
     @Id
     private String serialNumber;
