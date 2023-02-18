@@ -37,4 +37,13 @@ public class GoodService {
         }
         return goodRepository.save(newGood).getSerialNumber();
     }
+
+    public void deleteGood(String serialNumber) {
+        Good good = goodRepository
+                .findBySerialNumber(serialNumber)
+                .orElseThrow(() -> {
+                    throw new RuntimeException("Hello");
+                });
+        goodRepository.delete(good);
+    }
 }
