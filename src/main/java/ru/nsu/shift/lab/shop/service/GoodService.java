@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.nsu.shift.lab.shop.dto.GoodDto;
 import ru.nsu.shift.lab.shop.entity.*;
+import ru.nsu.shift.lab.shop.exception.GoodNotExistsException;
 import ru.nsu.shift.lab.shop.repository.GoodRepository;
 
 import java.util.List;
@@ -62,7 +63,8 @@ public class GoodService {
         Good good = goodRepository
                 .findBySerialNumber(serialNumber)
                 .orElseThrow(() -> {
-                    throw new RuntimeException("Hello");
+                    throw new GoodNotExistsException("Good with number " +
+                            serialNumber + " not exist");
                 });
         goodRepository.delete(good);
     }
