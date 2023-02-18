@@ -25,13 +25,33 @@ public class GoodService {
         Good newGood;
 
         switch (goodDto.getType()) {
-            case "monitor" -> newGood = modelMapper.map(goodDto, Monitor.class);
+            case "monitor" -> {
+                if (goodDto.getDiagonalInch() == null) {
+                    throw new IllegalStateException("Diagonal size cannot be null for monitor");
+                }
+                newGood = modelMapper.map(goodDto, Monitor.class);
+            }
 
-            case "disk" -> newGood = modelMapper.map(goodDto, HardDisk.class);
+            case "disk" -> {
+                if (goodDto.getSizeGb() == null) {
+                    throw new IllegalStateException("Size cannot be null for disk");
+                }
+                newGood = modelMapper.map(goodDto, HardDisk.class);
+            }
 
-            case "laptop" -> newGood = modelMapper.map(goodDto, Laptop.class);
+            case "laptop" -> {
+                if (goodDto.getMonitorSize() == null) {
+                    throw new IllegalStateException("Monitor size cannot be null for laptop");
+                }
+                newGood = modelMapper.map(goodDto, Laptop.class);
+            }
 
-            case "desktop" -> newGood = modelMapper.map(goodDto, Desktop.class);
+            case "desktop" -> {
+                if (goodDto.getShapeFactor() == null) {
+                    throw new IllegalStateException("Shape factor cannot be null for desktop");
+                }
+                newGood = modelMapper.map(goodDto, Desktop.class);
+            }
 
             default -> throw new RuntimeException("Hello");
         }
