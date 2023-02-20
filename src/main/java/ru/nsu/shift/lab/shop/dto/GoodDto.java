@@ -17,6 +17,7 @@ public class GoodDto {
     private String manufacturer;
     @NotNull(message = "Price cannot be null")
     private Integer price;
+
     private Integer diagonalInch;
     private Integer sizeGb;
     private MonitorSize monitorSize;
