@@ -19,8 +19,8 @@ public class GoodController {
 
 
     @GetMapping
-    public ResponseEntity<List<GoodDto>> getByType(@RequestParam String dtype) {
-        return ResponseEntity.ok(goodService.getAllByType(dtype));
+    public ResponseEntity<List<? extends GoodDto>> getByType(@RequestParam String productType) {
+        return ResponseEntity.ok(goodService.getAllByType(productType));
 
     }
 
