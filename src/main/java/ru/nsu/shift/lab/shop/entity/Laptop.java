@@ -3,12 +3,13 @@ package ru.nsu.shift.lab.shop.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import ru.nsu.shift.lab.shop.utils.MonitorSize;
+import ru.nsu.shift.lab.shop.enums.MonitorSize;
 
 @Entity
 @Getter
 @Setter
+@DiscriminatorValue("Laptop")
 public class Laptop extends Good {
-    @Enumerated
-    private MonitorSize size;
+    @Enumerated(value = EnumType.ORDINAL)
+    private MonitorSize monitorSize;
 }
