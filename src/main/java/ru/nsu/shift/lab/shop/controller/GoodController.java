@@ -43,9 +43,9 @@ public class GoodController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> change(@RequestParam String serialNumber,
-                                       @RequestBody GoodDto goodDto) {
-        return null;
+    public ResponseEntity<Void> change(@RequestBody GoodDto goodDto) {
+        goodService.editGood(goodDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

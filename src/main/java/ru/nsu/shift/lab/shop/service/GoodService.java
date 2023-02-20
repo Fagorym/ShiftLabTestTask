@@ -88,4 +88,13 @@ public class GoodService {
                 .toList();
 
     }
+
+    public void editGood(GoodDto goodDto) {
+        if (!goodRepository.existsBySerialNumber(goodDto.getSerialNumber())) {
+            throw new GoodNotExistsException("Good with serial number " + goodDto.getSerialNumber() +
+                    "does not exist");
+        } else {
+            goodRepository.save(modelMapper.map(goodDto, Good.class));
+        }
+    }
 }
