@@ -13,6 +13,7 @@ import ru.nsu.shift.lab.shop.exception.GoodNotExistsException;
 import ru.nsu.shift.lab.shop.exception.InvalidTypeException;
 import ru.nsu.shift.lab.shop.exception.NullFieldException;
 
+
 @ControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(GoodNotExistsException.class)
@@ -42,4 +43,5 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, ex.getMessage(),
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
+
 }

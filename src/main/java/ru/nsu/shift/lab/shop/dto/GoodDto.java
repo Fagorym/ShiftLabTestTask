@@ -2,6 +2,7 @@ package ru.nsu.shift.lab.shop.dto;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -25,9 +26,11 @@ public class GoodDto {
     @NotNull(message = "Serial number cannot be null")
     private String serialNumber;
     @NotNull(message = "Count cannot be null")
+    @Min(value = 0)
     private Integer count;
     @NotNull(message = "Manufacturer cannot be null")
     private String manufacturer;
     @NotNull(message = "Price cannot be null")
+    @Min(value = 0)
     private Integer price;
 }

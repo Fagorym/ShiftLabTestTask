@@ -1,5 +1,6 @@
 package ru.nsu.shift.lab.shop.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,7 +32,7 @@ public class GoodController {
     }
 
     @PostMapping
-    public ResponseEntity<String> add(@RequestBody GoodDto goodDto) {
+    public ResponseEntity<String> add(@RequestBody @Valid GoodDto goodDto) {
         return ResponseEntity.ok(goodService.saveGood(goodDto));
 
     }
@@ -43,7 +44,7 @@ public class GoodController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> change(@RequestBody GoodDto goodDto) {
+    public ResponseEntity<Void> change(@RequestBody @Valid GoodDto goodDto) {
         goodService.editGood(goodDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
