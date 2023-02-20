@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.nsu.shift.lab.shop.dto.GoodDto;
-import ru.nsu.shift.lab.shop.entity.Good;
 import ru.nsu.shift.lab.shop.service.GoodService;
 
 import java.util.List;
@@ -20,13 +19,13 @@ public class GoodController {
 
 
     @GetMapping
-    public ResponseEntity<List<GoodDto>> getByType() {
-        return ResponseEntity.ok(goodService.getAll());
+    public ResponseEntity<List<GoodDto>> getByType(@RequestParam String dtype) {
+        return ResponseEntity.ok(goodService.getAllByType(dtype));
 
     }
 
     @GetMapping("{serialNumber}")
-    public ResponseEntity<GoodDto> getById(@PathVariable Long serialNumber) {
+    public ResponseEntity<GoodDto> getById(@PathVariable String serialNumber) {
         return ResponseEntity.ok(goodService.getByNumber(serialNumber));
 
     }

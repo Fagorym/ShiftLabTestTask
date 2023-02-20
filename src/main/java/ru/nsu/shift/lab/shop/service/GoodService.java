@@ -21,13 +21,6 @@ public class GoodService {
 
     private final ModelMapper modelMapper;
 
-    public List<GoodDto> getAll() {
-        return goodRepository.findAll()
-                .stream()
-                .map(good -> modelMapper.map(good, GoodDto.class))
-                .toList();
-    }
-
     public String saveGood(GoodDto goodDto) {
         if (goodRepository.existsBySerialNumber(goodDto.getSerialNumber())) {
             throw new GoodAlreadyExistsException("Good with serial number " +
@@ -78,7 +71,21 @@ public class GoodService {
         goodRepository.delete(good);
     }
 
-    public GoodDto getByNumber(Long serialNumber) {
-        return null;
+    public GoodDto getByNumber(String serialNumber) {
+        Good good = goodRepository.findBySerialNumber(serialNumber)
+                .orElseThrow(() -> {
+                    throw new GoodNotExistsException("Good with serial number " +
+                            serialNumber + " does not exist");
+                });
+
+        return modelMapper.map(good, GoodDto.class);
+    }
+
+    public List<GoodDto> getAllByType(String dtype) {
+        return goodRepository.findByDtype(dtype)
+                .stream()
+                .map(good -> modelMapper.map(good, GoodDto.class))
+                .toList();
+
     }
 }
