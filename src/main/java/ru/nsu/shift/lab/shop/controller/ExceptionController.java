@@ -21,8 +21,16 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
-    @ExceptionHandler({InvalidTypeException.class, NullFieldException.class})
-    protected ResponseEntity<Object> handle(RuntimeException ex, WebRequest request) {
+    @ExceptionHandler(InvalidTypeException.class)
+    protected ResponseEntity<Object> handleInvalidTypeException(
+            RuntimeException ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(),
+                new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(NullFieldException.class)
+    protected ResponseEntity<Object> handleNullFieldException(
+            RuntimeException ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getMessage(),
                 new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
