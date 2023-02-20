@@ -13,4 +13,6 @@ public class Good {
     private String manufacturer;
     private Integer price;
     private Integer count;
+    @Column(insertable = false, updatable = false)
+    private String dtype;
 }

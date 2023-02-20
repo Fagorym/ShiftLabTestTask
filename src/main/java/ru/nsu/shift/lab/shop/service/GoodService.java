@@ -21,8 +21,11 @@ public class GoodService {
 
     private final ModelMapper modelMapper;
 
-    public List<Good> getAll() {
-        return goodRepository.findAll();
+    public List<GoodDto> getAll() {
+        return goodRepository.findAll()
+                .stream()
+                .map(good -> modelMapper.map(good, GoodDto.class))
+                .toList();
     }
 
     public String saveGood(GoodDto goodDto) {
@@ -31,29 +34,29 @@ public class GoodService {
                     goodDto.getSerialNumber() + " already exists");
         }
         Good newGood;
-        switch (goodDto.getType()) {
-            case "monitor" -> {
+        switch (goodDto.getDtype()) {
+            case "Monitor" -> {
                 if (goodDto.getDiagonalInch() == null) {
                     throw new NullFieldException("Diagonal size cannot be null for monitor");
                 }
                 newGood = modelMapper.map(goodDto, Monitor.class);
             }
 
-            case "disk" -> {
+            case "Disk" -> {
                 if (goodDto.getSizeGb() == null) {
                     throw new NullFieldException("Size cannot be null for disk");
                 }
                 newGood = modelMapper.map(goodDto, HardDisk.class);
             }
 
-            case "laptop" -> {
+            case "Laptop" -> {
                 if (goodDto.getMonitorSize() == null) {
                     throw new NullFieldException("Monitor size cannot be null for laptop");
                 }
                 newGood = modelMapper.map(goodDto, Laptop.class);
             }
 
-            case "desktop" -> {
+            case "Desktop" -> {
                 if (goodDto.getShapeFactor() == null) {
                     throw new NullFieldException("Shape factor cannot be null for desktop");
                 }

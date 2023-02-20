@@ -8,7 +8,7 @@ import ru.nsu.shift.lab.shop.utils.ShapeFactor;
 @Data
 public class GoodDto {
     @NotNull(message = "Type cannot be null")
-    private String type;
+    private String dtype;
     @NotNull(message = "Serial number cannot be null")
     private String serialNumber;
     @NotNull(message = "Count cannot be null")

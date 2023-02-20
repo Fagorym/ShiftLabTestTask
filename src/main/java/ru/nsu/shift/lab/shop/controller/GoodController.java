@@ -20,7 +20,7 @@ public class GoodController {
 
 
     @GetMapping
-    public ResponseEntity<List<Good>> getByType() {
+    public ResponseEntity<List<GoodDto>> getByType() {
         return ResponseEntity.ok(goodService.getAll());
 
     }
