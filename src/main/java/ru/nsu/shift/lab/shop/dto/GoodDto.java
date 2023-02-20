@@ -1,14 +1,27 @@
 package ru.nsu.shift.lab.shop.dto;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import ru.nsu.shift.lab.shop.utils.MonitorSize;
-import ru.nsu.shift.lab.shop.utils.ShapeFactor;
 
+
+@JsonTypeInfo(
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "productType",
+        use = JsonTypeInfo.Id.NAME,
+        visible = true
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = DesktopDto.class, name = "Desktop"),
+        @JsonSubTypes.Type(value = LaptopDto.class, name = "Laptop"),
+        @JsonSubTypes.Type(value = HardDiskDto.class, name = "Disk"),
+        @JsonSubTypes.Type(value = MonitorDto.class, name = "Monitor")
+})
 @Data
 public class GoodDto {
     @NotNull(message = "Type cannot be null")
-    private String dtype;
+    private String productType;
     @NotNull(message = "Serial number cannot be null")
     private String serialNumber;
     @NotNull(message = "Count cannot be null")
@@ -17,9 +30,4 @@ public class GoodDto {
     private String manufacturer;
     @NotNull(message = "Price cannot be null")
     private Integer price;
-
-    private Integer diagonalInch;
-    private Integer sizeGb;
-    private MonitorSize monitorSize;
-    private ShapeFactor shapeFactor;
 }
