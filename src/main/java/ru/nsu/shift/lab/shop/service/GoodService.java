@@ -8,9 +8,8 @@ import ru.nsu.shift.lab.shop.dto.GoodDto;
 import ru.nsu.shift.lab.shop.entity.*;
 import ru.nsu.shift.lab.shop.exception.GoodAlreadyExistsException;
 import ru.nsu.shift.lab.shop.exception.GoodNotExistsException;
-import ru.nsu.shift.lab.shop.exception.InvalidTypeException;
-import ru.nsu.shift.lab.shop.exception.NullFieldException;
 import ru.nsu.shift.lab.shop.repository.GoodRepository;
+import ru.nsu.shift.lab.shop.utils.GoodFactory;
 
 import java.util.List;
 
@@ -21,43 +20,15 @@ public class GoodService {
 
     private final ModelMapper modelMapper;
 
+    private final GoodFactory goodFactory = new GoodFactory();
+
     public String saveGood(GoodDto goodDto) {
         if (goodRepository.existsBySerialNumber(goodDto.getSerialNumber())) {
             throw new GoodAlreadyExistsException("Good with serial number " +
                     goodDto.getSerialNumber() + " already exists");
         }
-        Good newGood;
-        switch (goodDto.getDtype()) {
-            case "Monitor" -> {
-                if (goodDto.getDiagonalInch() == null) {
-                    throw new NullFieldException("Diagonal size cannot be null for monitor");
-                }
-                newGood = modelMapper.map(goodDto, Monitor.class);
-            }
+        Good newGood = modelMapper.map(goodDto, goodFactory.getGoodEntity(goodDto.getProductType()));
 
-            case "Disk" -> {
-                if (goodDto.getSizeGb() == null) {
-                    throw new NullFieldException("Size cannot be null for disk");
-                }
-                newGood = modelMapper.map(goodDto, HardDisk.class);
-            }
-
-            case "Laptop" -> {
-                if (goodDto.getMonitorSize() == null) {
-                    throw new NullFieldException("Monitor size cannot be null for laptop");
-                }
-                newGood = modelMapper.map(goodDto, Laptop.class);
-            }
-
-            case "Desktop" -> {
-                if (goodDto.getShapeFactor() == null) {
-                    throw new NullFieldException("Shape factor cannot be null for desktop");
-                }
-                newGood = modelMapper.map(goodDto, Desktop.class);
-            }
-
-            default -> throw new InvalidTypeException("This type does not exist");
-        }
         return goodRepository.save(newGood).getSerialNumber();
     }
 
@@ -78,13 +49,13 @@ public class GoodService {
                             serialNumber + " does not exist");
                 });
 
-        return modelMapper.map(good, GoodDto.class);
+        return modelMapper.map(good, goodFactory.getGoodDto(good.getProductType()));
     }
 
-    public List<GoodDto> getAllByType(String dtype) {
-        return goodRepository.findByDtype(dtype)
+    public List<? extends GoodDto> getAllByType(String productType) {
+        return goodRepository.findByProductType(productType)
                 .stream()
-                .map(good -> modelMapper.map(good, GoodDto.class))
+                .map(good -> modelMapper.map(good, goodFactory.getGoodDto(good.getProductType())))
                 .toList();
 
     }
@@ -94,7 +65,7 @@ public class GoodService {
             throw new GoodNotExistsException("Good with serial number " + goodDto.getSerialNumber() +
                     "does not exist");
         } else {
-            goodRepository.save(modelMapper.map(goodDto, Good.class));
+            goodRepository.save(modelMapper.map(goodDto, goodFactory.getGoodEntity(goodDto.getProductType())));
         }
     }
 }
