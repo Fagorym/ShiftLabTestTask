@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.nsu.shift.lab.shop.dto.GoodDto;
 import ru.nsu.shift.lab.shop.entity.*;
+import ru.nsu.shift.lab.shop.exception.GoodAlreadyExistsException;
 import ru.nsu.shift.lab.shop.exception.GoodNotExistsException;
 import ru.nsu.shift.lab.shop.exception.InvalidTypeException;
 import ru.nsu.shift.lab.shop.exception.NullFieldException;
@@ -25,8 +26,11 @@ public class GoodService {
     }
 
     public String saveGood(GoodDto goodDto) {
+        if (goodRepository.existsBySerialNumber(goodDto.getSerialNumber())) {
+            throw new GoodAlreadyExistsException("Good with serial number " +
+                    goodDto.getSerialNumber() + " already exists");
+        }
         Good newGood;
-
         switch (goodDto.getType()) {
             case "monitor" -> {
                 if (goodDto.getDiagonalInch() == null) {

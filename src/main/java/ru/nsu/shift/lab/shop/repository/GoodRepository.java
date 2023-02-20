@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface GoodRepository extends JpaRepository<Good, Long> {
     Optional<Good> findBySerialNumber(String serialNumber);
+    boolean existsBySerialNumber(String serialNumber);
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import ru.nsu.shift.lab.shop.exception.GoodAlreadyExistsException;
 import ru.nsu.shift.lab.shop.exception.GoodNotExistsException;
 import ru.nsu.shift.lab.shop.exception.InvalidTypeException;
 import ru.nsu.shift.lab.shop.exception.NullFieldException;
@@ -33,5 +34,12 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
             RuntimeException ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getMessage(),
                 new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(GoodAlreadyExistsException.class)
+    protected ResponseEntity<Object> handleGoodAlreadyExists(
+            RuntimeException ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getMessage(),
+                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 }
