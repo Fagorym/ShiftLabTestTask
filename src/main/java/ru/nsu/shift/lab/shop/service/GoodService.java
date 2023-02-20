@@ -70,4 +70,8 @@ public class GoodService {
                 });
         goodRepository.delete(good);
     }
+
+    public GoodDto getByNumber(Long serialNumber) {
+        return null;
+    }
 }

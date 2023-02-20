@@ -18,9 +18,16 @@ import java.util.List;
 public class GoodController {
     private final GoodService goodService;
 
+
     @GetMapping
-    public ResponseEntity<List<Good>> get() {
+    public ResponseEntity<List<Good>> getByType() {
         return ResponseEntity.ok(goodService.getAll());
+
+    }
+
+    @GetMapping("{serialNumber}")
+    public ResponseEntity<GoodDto> getById(@PathVariable Long serialNumber) {
+        return ResponseEntity.ok(goodService.getByNumber(serialNumber));
 
     }
 
@@ -31,9 +38,15 @@ public class GoodController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestParam String serialNumber){
+    public ResponseEntity<Void> delete(@RequestParam String serialNumber) {
         goodService.deleteGood(serialNumber);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> change(@RequestParam String serialNumber,
+                                       @RequestBody GoodDto goodDto) {
+        return null;
     }
 
 
